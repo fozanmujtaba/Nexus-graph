@@ -24,7 +24,7 @@ import { ThoughtStream } from '@/components/thought-stream';
 import { ChatMessage } from '@/components/chat-message';
 import { CommandPalette } from '@/components/command-palette';
 import { DataViewer } from '@/components/data-viewer';
-import { UploadModal } from '@/components/upload-modal';
+import { InlineUpload } from '@/components/inline-upload';
 import { Logo } from '@/components/logo';
 
 interface Message {
@@ -57,7 +57,6 @@ export default function HomePage() {
     const [currentSteps, setCurrentSteps] = useState<AgentStep[]>([]);
     const [showCommandPalette, setShowCommandPalette] = useState(false);
     const [showDataViewer, setShowDataViewer] = useState(false);
-    const [showUploadModal, setShowUploadModal] = useState(false);
     const [currentData, setCurrentData] = useState<any>(null);
     const [uploadedDocCount, setUploadedDocCount] = useState(0);
 
@@ -268,7 +267,11 @@ export default function HomePage() {
                             </kbd>
                         </button>
                         <button
-                            onClick={() => setShowUploadModal(true)}
+                            onClick={() => {
+                                // Scroll to top to show upload area
+                                window.scrollTo({ top: 0, behavior: 'smooth' });
+                                setMessages([]); // Clear messages to show upload area
+                            }}
                             className="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-sm text-surface-300 hover:bg-white/5 transition-colors"
                         >
                             <div className="flex items-center gap-3">
@@ -324,35 +327,64 @@ export default function HomePage() {
                                 <motion.div
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
-                                    className="text-center py-20"
+                                    className="py-8"
                                 >
-                                    <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-primary-500/20 to-accent-500/20 mb-6">
-                                        <Brain className="w-10 h-10 text-primary-400" />
+                                    {/* Welcome Header */}
+                                    <div className="text-center mb-8">
+                                        <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-primary-500/20 to-accent-500/20 mb-6">
+                                            <Brain className="w-10 h-10 text-primary-400" />
+                                        </div>
+                                        <h2 className="text-2xl font-bold text-white mb-3">
+                                            Welcome to Nexus-Graph
+                                        </h2>
+                                        <p className="text-surface-400 max-w-lg mx-auto">
+                                            Upload your documents to get started. Our AI agents will process, index,
+                                            and make them queryable using natural language.
+                                        </p>
                                     </div>
-                                    <h2 className="text-2xl font-bold text-white mb-3">
-                                        Welcome to Nexus-Graph
-                                    </h2>
-                                    <p className="text-surface-400 max-w-md mx-auto mb-8">
-                                        Ask questions about your documents, explore relationships, or query your data.
-                                        I'll use the best approach to find your answer.
-                                    </p>
-                                    <div className="flex flex-wrap justify-center gap-3">
-                                        {[
-                                            'What are the key findings in my documents?',
-                                            'Show me relationships between entities',
-                                            'How many records match my criteria?',
-                                        ].map((prompt, i) => (
-                                            <motion.button
-                                                key={i}
-                                                whileHover={{ scale: 1.02 }}
-                                                whileTap={{ scale: 0.98 }}
-                                                onClick={() => setInput(prompt)}
-                                                className="glass-card px-4 py-2 text-sm text-surface-300 hover:text-white"
-                                            >
-                                                {prompt}
-                                            </motion.button>
-                                        ))}
+
+                                    {/* Inline Upload - Front and Center */}
+                                    <div className="max-w-2xl mx-auto mb-10">
+                                        <InlineUpload
+                                            uploadedCount={uploadedDocCount}
+                                            onUploadComplete={(count) => {
+                                                setUploadedDocCount((prev) => prev + count);
+                                                toast.success('Documents ready!', {
+                                                    description: `${count} document(s) indexed and ready to query`,
+                                                });
+                                            }}
+                                        />
                                     </div>
+
+                                    {/* Sample Queries */}
+                                    {uploadedDocCount > 0 && (
+                                        <motion.div
+                                            initial={{ opacity: 0, y: 10 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            className="text-center"
+                                        >
+                                            <p className="text-sm text-surface-400 mb-4">
+                                                Your documents are ready! Try these queries:
+                                            </p>
+                                            <div className="flex flex-wrap justify-center gap-3">
+                                                {[
+                                                    'Summarize the main findings',
+                                                    'What are the key relationships?',
+                                                    'Show me important statistics',
+                                                ].map((prompt, i) => (
+                                                    <motion.button
+                                                        key={i}
+                                                        whileHover={{ scale: 1.02 }}
+                                                        whileTap={{ scale: 0.98 }}
+                                                        onClick={() => setInput(prompt)}
+                                                        className="glass-card px-4 py-2 text-sm text-surface-300 hover:text-white hover:border-primary-500/30"
+                                                    >
+                                                        {prompt}
+                                                    </motion.button>
+                                                ))}
+                                            </div>
+                                        </motion.div>
+                                    )}
                                 </motion.div>
                             ) : (
                                 <>
@@ -441,22 +473,6 @@ export default function HomePage() {
                         onClose={() => {
                             setShowDataViewer(false);
                             setCurrentData(null);
-                        }}
-                    />
-                )}
-            </AnimatePresence>
-
-            {/* Upload Modal */}
-            <AnimatePresence>
-                {showUploadModal && (
-                    <UploadModal
-                        isOpen={showUploadModal}
-                        onClose={() => setShowUploadModal(false)}
-                        onUploadComplete={(files) => {
-                            setUploadedDocCount((prev) => prev + files.filter(f => f.status === 'completed').length);
-                            toast.success('Documents uploaded', {
-                                description: `${files.filter(f => f.status === 'completed').length} document(s) ready to query`,
-                            });
                         }}
                     />
                 )}
