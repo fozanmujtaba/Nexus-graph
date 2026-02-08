@@ -1,0 +1,52 @@
+# Nexus-Graph Backend Requirements (Full - Python 3.11+)
+# Install with: pip install -r requirements.txt
+
+# FastAPI & Server
+fastapi>=0.109.0
+uvicorn[standard]>=0.27.0
+python-multipart>=0.0.9
+python-jose[cryptography]>=3.3.0
+passlib[bcrypt]>=1.7.4
+
+# LangChain & LangGraph
+langchain>=0.1.0
+langgraph>=0.0.40
+langchain-openai>=0.0.5
+langchain-google-genai>=0.0.6
+langchain-community>=0.0.20
+
+# Vector & Graph Databases
+pinecone-client>=3.0.0
+neo4j>=5.15.0
+
+# SQL Database
+sqlalchemy>=2.0.25
+asyncpg>=0.29.0
+alembic>=1.13.1
+
+# Document Processing (requires Python 3.10+)
+unstructured>=0.12.0
+pdf2image>=1.17.0
+pytesseract>=0.3.10
+pillow>=10.2.0
+
+# Embeddings & ML
+sentence-transformers>=2.2.2
+tiktoken>=0.5.2
+numpy>=1.26.3
+
+# RAGAS for evaluation (requires Python 3.10+)
+ragas>=0.1.0
+datasets>=2.16.0
+
+# Semantic Router (requires Python 3.10+)
+semantic-router>=0.0.20
+
+# Utilities
+pydantic>=2.5.3
+pydantic-settings>=2.1.0
+httpx>=0.26.0
+redis>=5.0.1
+python-dotenv>=1.0.0
+structlog>=24.1.0
+tenacity>=8.2.3

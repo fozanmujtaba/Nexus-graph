@@ -1,0 +1,86 @@
+# Dependencies
+node_modules/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+venv/
+.venv/
+env/
+*.egg-info/
+dist/
+build/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*.sublime-workspace
+*.sublime-project
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Test/Coverage
+.coverage
+htmlcov/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+coverage/
+.nyc_output/
+
+# Next.js
+.next/
+out/
+
+# Python
+*.pyc
+*.pyo
+*.egg
+*.egg-info
+.eggs/
+*.whl
+
+# Uploads
+uploads/*
+!uploads/.gitkeep
+
+# Secrets
+*.pem
+*.key
+*.crt
+secrets/
+
+# Temporary
+tmp/
+temp/
+*.tmp
+*.bak
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Docker volumes
+docker/volumes/

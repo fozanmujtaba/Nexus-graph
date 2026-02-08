@@ -1,0 +1,57 @@
+# Docker
+.docker/
+
+# Dependencies
+node_modules/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+venv/
+.venv/
+env/
+.env
+*.egg-info/
+dist/
+build/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Test/Coverage
+.coverage
+htmlcov/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Next.js
+.next/
+out/
+
+# Uploads (keep directory structure)
+uploads/*
+!uploads/.gitkeep
+
+# Secrets
+*.pem
+*.key
+*.crt
+secrets/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
