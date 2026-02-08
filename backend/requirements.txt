@@ -7,6 +7,7 @@ uvicorn[standard]>=0.27.0
 python-multipart>=0.0.9
 python-jose[cryptography]>=3.3.0
 passlib[bcrypt]>=1.7.4
+sse-starlette>=2.0.0
 
 # LangChain & LangGraph
 langchain>=0.1.0
@@ -16,13 +17,14 @@ langchain-google-genai>=0.0.6
 langchain-community>=0.0.20
 
 # Vector & Graph Databases
-pinecone-client>=3.0.0
+pinecone>=5.0.0
 neo4j>=5.15.0
 
 # SQL Database
-sqlalchemy>=2.0.25
+sqlalchemy[asyncio]>=2.0.25
 asyncpg>=0.29.0
 alembic>=1.13.1
+greenlet>=3.0.0
 
 # Document Processing (requires Python 3.10+)
 unstructured>=0.12.0
@@ -50,3 +52,4 @@ redis>=5.0.1
 python-dotenv>=1.0.0
 structlog>=24.1.0
 tenacity>=8.2.3
+aiofiles>=23.0.0

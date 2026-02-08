@@ -24,6 +24,7 @@ import { ThoughtStream } from '@/components/thought-stream';
 import { ChatMessage } from '@/components/chat-message';
 import { CommandPalette } from '@/components/command-palette';
 import { DataViewer } from '@/components/data-viewer';
+import { UploadModal } from '@/components/upload-modal';
 import { Logo } from '@/components/logo';
 
 interface Message {
@@ -56,7 +57,9 @@ export default function HomePage() {
     const [currentSteps, setCurrentSteps] = useState<AgentStep[]>([]);
     const [showCommandPalette, setShowCommandPalette] = useState(false);
     const [showDataViewer, setShowDataViewer] = useState(false);
+    const [showUploadModal, setShowUploadModal] = useState(false);
     const [currentData, setCurrentData] = useState<any>(null);
+    const [uploadedDocCount, setUploadedDocCount] = useState(0);
 
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -264,9 +267,19 @@ export default function HomePage() {
                                 ⌘K
                             </kbd>
                         </button>
-                        <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-surface-300 hover:bg-white/5 transition-colors">
-                            <Upload className="w-4 h-4" />
-                            <span>Upload Documents</span>
+                        <button
+                            onClick={() => setShowUploadModal(true)}
+                            className="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-sm text-surface-300 hover:bg-white/5 transition-colors"
+                        >
+                            <div className="flex items-center gap-3">
+                                <Upload className="w-4 h-4" />
+                                <span>Upload Documents</span>
+                            </div>
+                            {uploadedDocCount > 0 && (
+                                <span className="px-1.5 py-0.5 rounded bg-accent-500/20 text-accent-400 text-xs">
+                                    {uploadedDocCount}
+                                </span>
+                            )}
                         </button>
                         <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-surface-300 hover:bg-white/5 transition-colors">
                             <Settings className="w-4 h-4" />
@@ -428,6 +441,22 @@ export default function HomePage() {
                         onClose={() => {
                             setShowDataViewer(false);
                             setCurrentData(null);
+                        }}
+                    />
+                )}
+            </AnimatePresence>
+
+            {/* Upload Modal */}
+            <AnimatePresence>
+                {showUploadModal && (
+                    <UploadModal
+                        isOpen={showUploadModal}
+                        onClose={() => setShowUploadModal(false)}
+                        onUploadComplete={(files) => {
+                            setUploadedDocCount((prev) => prev + files.filter(f => f.status === 'completed').length);
+                            toast.success('Documents uploaded', {
+                                description: `${files.filter(f => f.status === 'completed').length} document(s) ready to query`,
+                            });
                         }}
                     />
                 )}
